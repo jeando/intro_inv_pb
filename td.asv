@@ -6,14 +6,17 @@ function f()
     m_size=15;
     std=2;
     m(1:m_size,1:m_size)=fspecial('gaussian',m_size,std);
-    s = floor(-(size(m(1:m_size,1:m_size))-1)/2);
+    s = -(size(m)-1)/2;
+    disp(s);
+    s=floor(s);
+    disp(s);
     m=circshift(m,s);
     conv=x;
     imshow(x/255);
     figure;
     for k=1:80
         conv=ifft2(fft2(conv).*fft2(m));
-        pause(0.0001);imshow(conv/255);
+        pause(0.001);imshow(conv/255);
     end
     figure;imshow(conv/255);
     %imshow(x/255);
