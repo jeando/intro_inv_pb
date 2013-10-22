@@ -1,23 +1,41 @@
 function f()
+close all;
     x=imread('peppers.png');
     x=double(x(:,:,1));
 
-    m=zeros(size(x));
-    m_size=15;
-    std=2;
-    m(1:m_size,1:m_size)=fspecial('gaussian',m_size,std);
-    s = -(size(m)-1)/2;
-    disp(s);
-    s=floor(s);
-    disp(s);
-    m=circshift(m,s);
-    conv=x;
-    imshow(x/255);
-    figure;
-    for k=1:80
-        conv=ifft2(fft2(conv).*fft2(m));
-        pause(0.001);imshow(conv/255);
-    end
-    figure;imshow(conv/255);
-    %imshow(x/255);
+        m=zeros(size(x));
+        m_size=15;
+        std=2;
+        m(1:m_size,1:m_size)=fspecial('gaussian',m_size,std);
+        s = floor(-(size(m(1:m_size,1:m_size))-1)/2);
+        m=circshift(m,s);
+        conv=x;
+        imshow(x/255);
+        figure;
+        %for k=1:80
+         %   conv=ifft2(fft2(conv).*fft2(m));
+          %  pause(0.0001);imshow(conv/255);
+       % end
+        figure;imshow(conv/255);
+        
+        
+    sigma_b = 7;
+    b=sigma_b * randn(size(x));
+    y=ifft2(fft2(x).*fft2(m))+b;
+   % function calc_x_chapeau(x_chapeau,m,y,lambda);
+    lambda=1;
+   
+    x_chapeau = ifft2(conj(fft2(m)).*fft2(y)./((abs(fft2(m)).^2+lambda)));
+        figure;imshow(y/255);
+        figure;imshow(x_chapeau/255);
+        colorbar;
+        figure;imagesc(x_chapeau/255);
+        figure;imshow(x_chapeau/255,[min(x_chapeau(:))]);
+        %figure;imshow(histeq(x_chapeau/255));
+        %minx = min(min(x_chapeau));
+        %maxx = max(max(x_chapeau));
+        %figure;imshow(imadjust(x_chapeau)/255);
+        %figure;imshow(b/255);
+        %imshow(x/255);
+    
 end
