@@ -8,7 +8,7 @@ close all;
         
         
         
-        std=2;%a changer pour la derniere question
+        std=50;%a changer pour la derniere question
         
         
         
