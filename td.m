@@ -23,7 +23,7 @@ close all;
     b=sigma_b * randn(size(x));
     y=ifft2(fft2(x).*fft2(m))+b;
    % function calc_x_chapeau(x_chapeau,m,y,lambda);
-    lambda=1;
+    lambda=0.25;
    
     x_chapeau = ifft2(conj(fft2(m)).*fft2(y)./((abs(fft2(m)).^2+lambda)));
         figure;imshow(y/255);
