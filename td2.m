@@ -15,11 +15,13 @@ function td2()
     k=10;
     alpha=10;
     img2=img;
-    for x=n:n+size(img,2)-n
-        for y=n:n+size(img,1)-n
+    for x=n:size(img,2)-n
+        for y=n:size(img,1)-n
    % for x=150:200%size(img,2)-n
     %    for y=200:250%size(img,1)-n
     
+   % disp(strcat('x:',int2str(x),', y: ',int2str(y)));
+    %disp(size(img));
             pref = patch_extract(img, n, x, y);
             [ psim, weight] = similar_patches(img, w,x,y,pref,k,alpha);
             un_sur_somme_w = 1/sum(weight);
@@ -46,9 +48,8 @@ function td2()
     function pref = patch_extract(img, n,x,y)
        % disp(x);disp(y);
       % disp(n);
-    %   disp(x);
-     %  disp(y);
-        pref = img((x-(n-1)/2):(x+(n-1)/2),( y-(n-1)/2):(y+(n-1)/2));
+       %disp(strcat('x:',int2str(x),', y: ',int2str(y)));
+        pref = img((y-(n-1)/2):(y+(n-1)/2),( x-(n-1)/2):(x+(n-1)/2));
     end
     function [ psim, weight] = similar_patches(img, w,x,y,pref,k,alpha)
         n=size(pref,1);
