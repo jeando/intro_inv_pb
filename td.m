@@ -100,13 +100,13 @@ close all;
             s2 = s - alpha * grad_E;
             
             
-        energie = 0;
-        for u = 1 : dim(1)
-            for v = 1 : dim(2)
-                energie = energie + sqrt(s(u,v)^2+epsilon2)-epsilon;
-            end
-        end
-        energie = energie * lambda + norm(ifft2(Y-M.*fft2(s)))^2;
+			energie = 0;
+			for u = 1 : dim(1)
+				for v = 1 : dim(2)
+					energie = energie + sqrt(s(u,v)^2+epsilon2)-epsilon;
+				end
+			end
+			energie = energie * lambda + norm(ifft2(Y-M.*fft2(s)))^2;
             disp(energie);
             if(norm(s2-s)<epsilon)
                 s=s2;
