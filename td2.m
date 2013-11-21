@@ -11,9 +11,9 @@ function td2()
     img = img + b;
 
     n=11;%taille du mask autour du pixel
-    w=21;%5*n % taille de la fenetre de recherche
-    k=10;%nombre de patch que l'on garde
-    alpha=100;
+    w=5*n; % taille de la fenetre de recherche
+    k=25;%nombre de patch que l'on garde
+    alpha=200;
     img2=img;%new image
     for x=n:size(img,2)-n
         for y=n:size(img,1)-n
