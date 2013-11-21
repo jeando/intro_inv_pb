@@ -15,9 +15,6 @@ function td2()
     w=21;
     k=10;
     alpha=100;
-    
-    
-    
     img2=img;
     for x=n:size(img,2)-n
         for y=n:size(img,1)-n
@@ -38,6 +35,7 @@ function td2()
    %             tmp = tmp + psim(1:n,(ii*n+1):((ii+1)*n)) * weight(ii+1);
    %         end
             img2(y,x) = similar_patches(img, n, w,x,y,pref,k,alpha);%tmp((n+1)/2,(n+1)/2);
+
         end
         disp(x);
     end
