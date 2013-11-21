@@ -13,7 +13,7 @@ function td2()
     n=11;
     w=21;
     k=10;
-    alpha=10;
+    alpha=100;
     img2=img;
     for x=n:size(img,2)-n
         for y=n:size(img,1)-n
@@ -33,7 +33,7 @@ function td2()
             for i = 1 : k-1
                 tmp = tmp + psim(1:n,(i*n+1):((i+1)*n)) * weight(i+1);
             end
-            img2(x,y) = tmp(6,6);
+            img2(y,x) = tmp(6,6);
         end
         disp(x);
     end
