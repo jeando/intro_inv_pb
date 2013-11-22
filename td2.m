@@ -5,15 +5,26 @@ function td2()
     img=double(img(:,:,1));
     disp(size(img));
 
-
+imwrite(img/255,strcat('test_ini.png'));
     sigma_b = 7;
     b=sigma_b * randn(size(img));
     img = img + b;
 
+    tab_alpha = [100];
+    tab_w = [21];
+    tab_k = [5,10,20,40,80];
+    
     n=11;%taille du mask autour du pixel
-    w=5*n; % taille de la fenetre de recherche
-    k=25;%nombre de patch que l'on garde
-    alpha=200;
+    w=21;%5*n % taille de la fenetre de recherche
+    k=10;%nombre de patch que l'on garde
+    
+    alpha=100;
+img2=img;
+imwrite(img2/255,strcat('test_______w=',int2str(w),'_k=',int2str(k),'alpha=',int2str(alpha),'.png'));
+    
+    for alpha = tab_alpha
+        for w = tab_w
+            for k = tab_k
     img2=img;%new image
     for x=n:size(img,2)-n
         for y=n:size(img,1)-n
@@ -28,6 +39,10 @@ function td2()
     figure;imagesc(img2/255);
     colorbar;
     colormap(gray);
+imwrite(img2/255,strcat('w=',int2str(w),'_k=',int2str(k),'alpha=',int2str(alpha),'.png'));
+        end
+    end
+end
 
     function pref = patch_extract(img, n,x,y)
         pref = img((y-(n-1)/2):(y+(n-1)/2),( x-(n-1)/2):(x+(n-1)/2));
@@ -35,16 +50,17 @@ function td2()
 
     %retourne la nouvelle valeur du pixel (x,y).
     function [ val] = similar_patches(img, n, w,x,y,k,alpha)
-        pref = img((y-(n-1)/2):(y+(n-1)/2),( x-(n-1)/2):(x+(n-1)/2));
+        n_moins_un_sur_deux = (n-1)/2;
+        pref = img((y-n_moins_un_sur_deux):(y+(n-1)/2),( x-n_moins_un_sur_deux):(x+n_moins_un_sur_deux));
         
-        row_begin = max(y-(w-1)/2,1+(n-1)/2);
-        row_end = min(y+(w-1)/2,size(img,1)-(n-1)/2);
+        row_begin = max(y-(w-1)/2,1+n_moins_un_sur_deux);
+        row_end = min(y+(w-1)/2,size(img,1)-n_moins_un_sur_deux);
         
        % n_rows = row_end - row_begin;
         n_rows = row_end - row_begin+1;%a voir
         
-        col_begin = max(x-(w-1)/2,1+(n-1)/2);
-        col_end =  min(x+(w-1)/2,size(img,2)-(n-1)/2);
+        col_begin = max(x-(w-1)/2,1+n_moins_un_sur_deux);
+        col_end =  min(x+(w-1)/2,size(img,2)-n_moins_un_sur_deux);
         
         
         all_norm = zeros((col_end-col_begin+1)*n_rows,3);%+1 a voir
@@ -54,7 +70,7 @@ function td2()
             ccols_x_n_row = ccols*n_rows;
             for row = row_begin : row_end
                 rrows = row - row_begin;
-                all_norm(ccols_x_n_row+rrows+1,:)=[sum(sum((pref-img((row-(n-1)/2):(row+(n-1)/2),( col-(n-1)/2):(col+(n-1)/2))).^2)),row,col];
+                all_norm(ccols_x_n_row+rrows+1,:)=[sum(sum((pref-img((row-n_moins_un_sur_deux):(row+n_moins_un_sur_deux),( col-n_moins_un_sur_deux):(col+n_moins_un_sur_deux))).^2)),row,col];
             end
         end
         [sorted_value, indice] = sort(all_norm(:,1));
@@ -68,7 +84,6 @@ function td2()
         for i = 1 : k
             tmp2 = tmp2 + patch_extract(img,n,col(i),row(i))*weight(i);
         end
-        val = tmp2((n+1)/2,(n+1)/2);
+        val = tmp2(n_moins_un_sur_deux+1,n_moins_un_sur_deux+1);
     end
 end
-
