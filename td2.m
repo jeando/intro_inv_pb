@@ -1,3 +1,5 @@
+%AUTHORS Jean-Dominique FAVREAU , Marie GUENON
+
 function td2()
 %clean session
     close all;
